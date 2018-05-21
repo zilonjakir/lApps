@@ -9,12 +9,6 @@
                 <th>Email</th>                
             </tr>
         </thead>
-<!--        <tbody>
-            <tr>
-                <td>Name</td>
-                <td>Email</td>                
-            </tr>
-        </tbody>-->
     </table>
     
 </div>
@@ -33,8 +27,9 @@ $(document).ready(function() {
         "iDisplayLength": 10,
         "lengthMenu": [[100, 250, 500, -1], [100, 250, 500, "All"]],
         //"scrollY": "500px",
-        "scrollX": true,
+        //"scrollX": true,
         "buttons": ['excel','pdf','print', 'pageLength'],
+        "pageLength": 2,
         "ajax":{
             url: 'serverUser',
             type:"post",

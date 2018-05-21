@@ -90,9 +90,7 @@ class UserController extends Controller
     
     public function getServerUserList(Request $request)
     {
-        //echo 'hello';
-        //Helper::debug($request->input('_token'),1);
-        $sql = "select * from users";
+        $sql = "select id,name,email from users";
         $where = '1';
         $data['sql'] = $sql;
         $data['where'] = $where;
@@ -100,10 +98,10 @@ class UserController extends Controller
         $search = ['users.name','users.email'];
         $id = 'id';
         $table_data = Helper::generateDataTables($data,$field,$search,$id);
-        
+        //Helper::debug($table_data['data'][0],1);
         foreach ($table_data['data'] as $key=> $data){
-            $table_data['data'][$key][0] = !empty($data[1]) ? $data[1] : '';
-            $table_data['data'][$key][1] = !empty($data[2]) ? $data[2] : '';
+            $table_data['data'][$key][0] = !empty($data[0]) ? $data[0] : '';
+            $table_data['data'][$key][1] = !empty($data[1]) ? $data[1] : '';
         }
         echo json_encode($table_data);  // send data as json format
     }

@@ -24,8 +24,7 @@ class CommonHelper
     }
     
     public static function generateDataTables($sql = [], $columns=[], $search=[], $data_id_field = ''){
-        //$this->debug($_REQUEST,1);
-        //$_this = new self;
+        $obj = new CommonHelper();
         if(!empty($_REQUEST)){
             
             $requestData = $_REQUEST;
@@ -52,9 +51,9 @@ class CommonHelper
             //$query = $this->db->query($final_sql);
             //$data = $query->result_array();
             $query = DB::select($final_sql);
-            //$this->debug($query->all(),1);
+            //$obj->debug(count($query),1);
             $data = $query;
-            $totalData = $query->count();
+            $totalData = count($query);
             $totalFiltered = $totalData;
 
             if( !empty($requestData['search']['value']) ) {
@@ -72,7 +71,7 @@ class CommonHelper
                 //$query=$this->db->query($final_sql);
                 //$totalFiltered = $query->num_rows(); 
                 $query = DB::select($final_sql);
-                $totalFiltered = $query->count();;
+                $totalFiltered = count($query);
                 
                 $final_sql.=" ORDER BY ". $columns[$requestData['order'][0]['column']]."   ".$requestData['order'][0]['dir']."   LIMIT ".$requestData['start']." ,".$requestData['length']."   "; 
                 //$query=$this->db->query($final_sql);
@@ -87,16 +86,16 @@ class CommonHelper
                 //$query=$this->db->query($final_sql);
                 $query = DB::select($final_sql);
             }
-            $data = $query->result_array();
+            $data = $query;
            // dd($data);
             
             $finalData =[];
             foreach($data as $val){
                 $temp =[];
                 foreach ($columns as $col){
-                    $temp[] = $val[$col];
+                    $temp[] = $val->$col;
                 }
-                $temp['DT_RowId'] = 'row_'.$val[$data_id_field];
+                $temp['DT_RowId'] = 'row_'.$val->$data_id_field;
                 $temp['DT_RowClass'] = 'rows';
                 // if(!empty($key)){
                 //     $temp[] = str_replace('__KEY__', $val[$key], $action);
