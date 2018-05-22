@@ -47,11 +47,8 @@ class CommonHelper
             }
             $final_sql = $main_sql.$where.$group_by.$order_by;
             
-            
-            //$query = $this->db->query($final_sql);
-            //$data = $query->result_array();
             $query = DB::select($final_sql);
-            //$obj->debug(count($query),1);
+           
             $data = $query;
             $totalData = count($query);
             $totalFiltered = $totalData;
@@ -67,27 +64,22 @@ class CommonHelper
                     $first++;
                 }
                 $final_sql = $main_sql.$where.$group_by;
-
-                //$query=$this->db->query($final_sql);
-                //$totalFiltered = $query->num_rows(); 
+                 
                 $query = DB::select($final_sql);
                 $totalFiltered = count($query);
                 
                 $final_sql.=" ORDER BY ". $columns[$requestData['order'][0]['column']]."   ".$requestData['order'][0]['dir']."   LIMIT ".$requestData['start']." ,".$requestData['length']."   "; 
-                //$query=$this->db->query($final_sql);
+                
                 $query = DB::select($final_sql);
                 
-                // again run query with limit
             } else {
                 $order_by =" ORDER BY ". $columns[$requestData['order'][0]['column']]."   ".$requestData['order'][0]['dir']."   LIMIT ".$requestData['start']." ,".$requestData['length']."   ";
 
-                // echo  $main_sql.$where.$group_by.$order_by;
                 $final_sql = $main_sql.$where.$group_by.$order_by;
-                //$query=$this->db->query($final_sql);
                 $query = DB::select($final_sql);
             }
             $data = $query;
-           // dd($data);
+          
             
             $finalData =[];
             foreach($data as $val){
@@ -97,16 +89,13 @@ class CommonHelper
                 }
                 $temp['DT_RowId'] = 'row_'.$val->$data_id_field;
                 $temp['DT_RowClass'] = 'rows';
-                // if(!empty($key)){
-                //     $temp[] = str_replace('__KEY__', $val[$key], $action);
-                // }
                 $finalData[] = $temp;
             }
             $json_data = array(
-                "draw"            => intval( $requestData['draw'] ),   // for every request/draw by clientside , they send a number as a parameter, when they recieve a response/data they first check the draw number, so we are sending same number in draw.
-                "recordsTotal"    => intval( $totalData ),  // total number of records
-                "recordsFiltered" => intval( $totalFiltered ), // total number of records after searching, if there is no searching then totalFiltered = totalData
-                "data"            => $finalData   // total data array
+                "draw"            => intval( $requestData['draw'] ),
+                "recordsTotal"    => intval( $totalData ),
+                "recordsFiltered" => intval( $totalFiltered ),
+                "data"            => $finalData
             );
             return $json_data;
         }

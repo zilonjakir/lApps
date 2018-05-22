@@ -2,11 +2,17 @@
 
 @section('content')
 <div class="content-wrapper">
+    @if (\Session::has('success'))
+      <div class="alert alert-success">
+        <p>{{ \Session::get('success') }}</p>
+      </div><br />
+    @endif
      <table class="table table-bordered" id="serverDataTable">
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Email</th>                
+                <th>Email</th> 
+                <th>Action</th>                
             </tr>
         </thead>
     </table>
